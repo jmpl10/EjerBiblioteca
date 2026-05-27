@@ -26,10 +26,18 @@ public class Main {
                 case 1-> altaLibro(b);
                 case 2-> altaUsuario(b);
                 case 3-> listarLibros(b);
+                case 4-> listarUsuarios(b);
                 case 0-> System.out.println("Fin");
                 default -> System.out.println("Error. Opción no válida");
             }
         }while (opc!=0);
+    }
+
+    private static void listarUsuarios(Biblioteca b) {
+        List<Usuario> listaUsuarios= b.listarUsuarios();
+        for (Usuario u:listaUsuarios){
+            System.out.println(u);
+        }
     }
 
     private static void altaUsuario(Biblioteca b) {

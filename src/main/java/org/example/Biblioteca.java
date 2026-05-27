@@ -23,6 +23,15 @@ public class Biblioteca {
     public void altaUsuario(String nif, String nombre) {
         if (!personas.containsKey(nif))
           personas.put(nif,new Persona(nif,nombre));
+    }
+
+    public List<Usuario> listarUsuarios() {
+        List<Usuario> listaUsuarios=new ArrayList<>();
+        for (Persona p:personas.values()){
+            if (p instanceof Usuario)
+                listaUsuarios.add((Usuario)p);
+        }
+        return listaUsuarios;
 
     }
 }
