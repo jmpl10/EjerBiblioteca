@@ -39,7 +39,6 @@ public class Main {
             }
         }while (opc!=0);
     }
-
     private static void eliminarUsuario(Biblioteca b) {
         System.out.println("nif usuario");
         String nif = sc.nextLine();
@@ -48,7 +47,6 @@ public class Main {
             b.borrarUsuario(u);
         }
     }
-
     private static void listarLibroPrestado(Biblioteca b) {
         System.out.println("signatura libro");
         int signatura = Integer.parseInt(sc.nextLine());
@@ -122,6 +120,17 @@ public class Main {
     }
     public static void main(String[] args) {
             Biblioteca b=new Biblioteca();
+            leerLibros(b);
             menu(b);
+            guardarLibros(b);
+
+    }
+
+    private static void leerLibros(Biblioteca b) {
+        b.leerLibros();
+    }
+
+    private static void guardarLibros(Biblioteca b) {
+        b.guardarLibros();
     }
 }
