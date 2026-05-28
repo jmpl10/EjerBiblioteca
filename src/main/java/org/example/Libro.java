@@ -19,7 +19,8 @@ public class Libro {
     }
 
     public void restarEjemplaresDisponibles() {
-        numEjemplares--;
+        if (numEjemplares>0)
+          numEjemplares--;
     }
 
     @Override
