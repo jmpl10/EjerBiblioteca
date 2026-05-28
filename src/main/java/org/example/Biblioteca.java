@@ -20,7 +20,7 @@ public class Biblioteca {
     }
     public void altaUsuario(String nif, String nombre) {
         if (!personas.containsKey(nif))
-          personas.put(nif,new Persona(nif,nombre));
+          personas.put(nif,new Usuario(nif,nombre));
     }
     public List<Usuario> listarUsuarios() {
         List<Usuario> listaUsuarios=new ArrayList<>();
@@ -35,9 +35,7 @@ public class Biblioteca {
         if (p!=null && p instanceof Usuario)
           return (Usuario)p;
         return null;
-
     }
-
     public Libro getLibro(int signatura) {
         Libro laux=null;
         for (Libro l:libros)
@@ -46,5 +44,28 @@ public class Biblioteca {
                 break;
             }
         return laux;
+    }
+    public void prestarLibro(Usuario u, Libro l) {
+        if (u.anadirLibro(l))
+            l.restarEjemplaresDisponibles();
+    }
+    public boolean devolverLibro(Usuario u, Libro l) {
+        if (u.tieneLibro(l))
+            if (u.eliminarLibro(l))
+                l.sumarEjemplar();
+        else return false;
+        return true;
+    }
+
+    public List<Usuario> usuariosConLibro(Libro l) {
+        List<Usuario> lista=new ArrayList<>();
+        for (Persona p:personas.values())
+            if (p instanceof Usuario)
+                if(((Usuario)p).tieneLibro(l))
+                    lista.add((Usuario)p);
+        return lista;
+    }
+    public void borrarUsuario(Usuario u) {
+        personas.remove(u.nif);
     }
 }

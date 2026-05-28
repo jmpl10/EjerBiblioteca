@@ -16,6 +16,9 @@ public class Main {
             System.out.println("3-Listar libros");
             System.out.println("4-Listar usuarios");
             System.out.println("5-Prestar Libro");
+            System.out.println("6-Devolver Libro");
+            System.out.println("7-Usuarios que poseen 1 libro concreto");
+            System.out.println("8-Eliminar usuario");
             System.out.println("0-fin" );
             try {
                 opc = Integer.parseInt(sc.nextLine());
@@ -30,11 +33,50 @@ public class Main {
                 case 5-> prestarLibros(b);
                 case 6-> devolverLibro(b);
                 case 7-> listarLibroPrestado(b); //indicar los usuarios que tienen un libro dado
+                case 8-> eliminarUsuario(b);
                 case 0-> System.out.println("Fin");
                 default -> System.out.println("Error. Opción no válida");
             }
         }while (opc!=0);
     }
+
+    private static void eliminarUsuario(Biblioteca b) {
+        System.out.println("nif usuario");
+        String nif = sc.nextLine();
+        Usuario u = b.getUsuario(nif);
+        if (u != null) {
+            b.borrarUsuario(u);
+        }
+    }
+
+    private static void listarLibroPrestado(Biblioteca b) {
+        System.out.println("signatura libro");
+        int signatura = Integer.parseInt(sc.nextLine());
+        Libro l = b.getLibro(signatura);
+        if (l != null) {
+           List<Usuario>listaUsuarios= b.usuariosConLibro(l);
+           if (listaUsuarios!=null) {
+               for (Usuario u:listaUsuarios) {
+                   System.out.println(u.nif+"->"+u.nombre);
+               }
+           }
+           else
+            System.out.println("Ningún usuario tiene ese libro");
+        }
+        else System.out.println("El libro no existe");
+    }
+    private static void devolverLibro(Biblioteca b) {
+        System.out.println("nif usuario");
+        String nif = sc.nextLine();
+        Usuario u = b.getUsuario(nif);
+        if (u != null) {
+            System.out.println("signatura libro");
+            int signatura = Integer.parseInt(sc.nextLine());
+            Libro l = b.getLibro(signatura);
+            b.devolverLibro(u,l);
+        }
+    }
+
     private static void prestarLibros(Biblioteca b) {
         System.out.println("nif usuario");
         String nif=sc.nextLine();
@@ -43,14 +85,14 @@ public class Main {
             System.out.println("signatura libro");
             int signatura=Integer.parseInt(sc.nextLine());
             Libro l=b.getLibro(signatura);
-            if (l!=null){
+            if (l!=null && l.getNumEjemplares()>0){
                 b.prestarLibro(u, l);  //decrementar ejemplares disponibles
             }
+            else System.out.println("Libro no disponible");
         }
         else System.out.println("Usuario no existe");
 
     }
-
     private static void listarUsuarios(Biblioteca b) {
         List<Usuario> listaUsuarios= b.listarUsuarios();
         for (Usuario u:listaUsuarios){
@@ -74,7 +116,7 @@ public class Main {
         System.out.println("Título");
         String titulo = sc.nextLine();
         System.out.println("Num Ejemplares");
-        int numEjemplares = sc.nextInt();
+        int numEjemplares = Integer.parseInt(sc.nextLine());
         Libro l= new Libro(titulo, numEjemplares);
         b.anadirLibro(l);
     }

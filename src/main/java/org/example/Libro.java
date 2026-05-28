@@ -3,6 +3,8 @@ package org.example;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 @AllArgsConstructor
 public class Libro {
@@ -16,4 +18,23 @@ public class Libro {
         signatura=++NUMLIBROS;
     }
 
+    public void restarEjemplaresDisponibles() {
+        numEjemplares--;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Libro libro = (Libro) o;
+        return this.signatura == libro.signatura;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(signatura);
+    }
+
+    public void sumarEjemplar() {
+        numEjemplares++;
+    }
 }
